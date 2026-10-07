@@ -14,13 +14,13 @@
 ## {{ $lang }}
 
 {{ range $langMap -}}
-- [{{ .FullName }}]({{ .URL }}){{ if ne .Description "" }} – {{ .Description }}{{- end }}
+- [{{ .FullName }}]({{ .URL }}) (⭐ starred {{ .StargazersCount }} ) {{ if ne .Description "" }} – {{ .Description }}{{- end }} - (Topics: {{ .TopicsString }})
 {{ end }}{{- end }}
 {{- else }}
 ## Repositories
 
 {{ range .Repositories -}}
-- [{{ .FullName }}]({{ .URL }})
+- [{{ .FullName }}]({{ .URL }}) (⭐ starred {{ .StargazersCount }} ) - (Topics: {{ .TopicsString }})
 {{ end }}
 {{- end }}
 

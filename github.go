@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"slices"
+	"strings"
 	"time"
 
 	"github.com/google/go-github/v71/github"
@@ -30,14 +31,16 @@ type GitHub struct {
 
 // Repository struct for storing parameters from Repository
 type Repository struct {
-	FullName    string
-	URL         string
-	Language    string
-	Description string
+	FullName        string
+	URL             string
+	Language        string
+	Description     string
+	StargazersCount int
+	TopicsString    string
 }
 
-// New creates new GitHub client
-func New(token string) (client *GitHub) {
+// NewGitHubClient creates new GitHub client
+func NewGitHubClient(token string) (client *GitHub) {
 	gh := github.NewClient(
 		httpcache.NewMemoryCacheTransport().Client(),
 	)
@@ -98,11 +101,14 @@ func (g *GitHub) GetRepositories(ctx context.Context) (map[string][]Repository, 
 	}
 
 	for _, r := range repos {
+
 		repo := Repository{
-			FullName:    r.Repository.GetFullName(),
-			URL:         r.Repository.GetHTMLURL(),
-			Language:    r.Repository.GetLanguage(),
-			Description: r.Repository.GetDescription(),
+			FullName:        r.Repository.GetFullName(),
+			URL:             r.Repository.GetHTMLURL(),
+			Language:        r.Repository.GetLanguage(),
+			Description:     r.Repository.GetDescription(),
+			StargazersCount: r.Repository.GetStargazersCount(),
+			TopicsString:    strings.Join(r.Repository.Topics, ", "),
 		}
 		repositories = append(repositories, repo)
 		lang := "Others"

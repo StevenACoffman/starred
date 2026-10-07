@@ -78,7 +78,7 @@ func init() {
 func main() {
 	ctx := context.Background()
 
-	client := New(token)
+	client := NewGitHubClient(token)
 
 	langRepoMap, repositories, err := client.GetRepositories(ctx)
 	if err != nil {
